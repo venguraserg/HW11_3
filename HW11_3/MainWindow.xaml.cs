@@ -35,11 +35,11 @@ namespace HW11_3
             ListView_Clients.ItemsSource = this.userController.Clients;
 
 
-            Surname.IsEnabled = userController.CurentUser is Consultant ? false : true;
-            Name.IsEnabled = userController.CurentUser is Consultant ? false : true;
-            Patronymic.IsEnabled = userController.CurentUser is Consultant ? false : true;
-            PassNumber.IsEnabled = userController.CurentUser is Consultant ? false : true;
-            BTN_Add.IsEnabled = userController.CurentUser is Consultant ? false : true;
+            Surname.IsEnabled = userController.CurentUser is not Consultant;
+            Name.IsEnabled = userController.CurentUser is not Consultant;
+            Patronymic.IsEnabled = userController.CurentUser is not Consultant;
+            PassNumber.IsEnabled = userController.CurentUser is not Consultant;
+            BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
 
@@ -83,12 +83,38 @@ namespace HW11_3
 
         private void BTN_Add_Click(object sender, RoutedEventArgs e)
         {
-            var tempSurname = Surname.Text.Trim();
-            var tempName = Name.Text.Trim();
-            var tempPatronymic = Patronymic.Text.Trim();
-            var tempPhoneNumber = PhoneNumber.Text.Trim();
-            var tempPassNumber = PassNumber.Text.Trim();
-            userController.AddClient(tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber);
+            if ((Surname.Text == "") || (Name.Text == "") || (Patronymic.Text == "") || (PhoneNumber.Text == "") || (PassNumber.Text == "")) 
+            {                
+                Surname.Background = Surname.Text=="" ? Brushes.Orchid : Brushes.Transparent;
+                Name.Background = Name.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                Patronymic.Background = Patronymic.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                PhoneNumber.Background = PhoneNumber.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                PassNumber.Background = PassNumber.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                MessageBox.Show("Не все поля заполнены");
+
+            }
+            else
+            {
+                Surname.Background = Brushes.Transparent;
+                Name.Background = Brushes.Transparent;
+                Patronymic.Background = Brushes.Transparent;
+                PhoneNumber.Background = Brushes.Transparent;
+                PassNumber.Background = Brushes.Transparent;
+
+                var tempSurname = Surname.Text.Trim();
+                var tempName = Name.Text.Trim();
+                var tempPatronymic = Patronymic.Text.Trim();
+                var tempPhoneNumber = PhoneNumber.Text.Trim();
+                var tempPassNumber = PassNumber.Text.Trim();
+                if (userController.AddClient(tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber))
+                {
+                    MessageBox.Show("Данные успешно добавлены");
+                }
+                else
+                {
+                    MessageBox.Show("Не возможно добавить данные\nвероятно такой клиент уже существует!");
+                }
+            }            
         }
 
         private void BTN_Change_Click(object sender, RoutedEventArgs e)
@@ -98,7 +124,8 @@ namespace HW11_3
 
         private void BTN_Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            var q = ListView_Clients.SelectedItem as Client;
+            //userController.DeleteClient(ListView_Clients.SelectedItem as Client);
         }
 
         private void BTN_Auth_Click(object sender, RoutedEventArgs e)

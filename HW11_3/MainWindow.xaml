@@ -38,6 +38,8 @@
                   Grid.ColumnSpan="5"  SelectionChanged="ListView_Clients_SelectionChanged_1"  >
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Id" 
+                                    DisplayMemberBinding="{Binding Path=Id}"/>
                     <GridViewColumn Header="Фамилия" 
                                     DisplayMemberBinding="{Binding Path=Surname}"/>
                     <GridViewColumn Header="Имя" 
@@ -57,7 +59,7 @@
         <TextBlock Grid.Row ="5" Grid.Column="0" Margin="5" Text="Отчество" HorizontalAlignment="Center" FontWeight="Bold" />
         <TextBlock Grid.Row ="6" Grid.Column="0" Margin="5" Text="Номер телефона" HorizontalAlignment="Center" FontWeight="Bold" />
         <TextBlock Grid.Row ="7" Grid.Column="0" Margin="5" Text="Номер паспорта" HorizontalAlignment="Center" FontWeight="Bold" />
-        <TextBox x:Name="Surname" Grid.Row ="3" Grid.Column="1" Margin="5"/>
+        <TextBox x:Name="Surname" Grid.Row ="3" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
         <!--Text="{Binding SelectedItem.Surname, ElementName=ListView_Clients}" />-->
         <TextBox x:Name="Name" Grid.Row ="4" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
         <!--Text="{Binding SelectedItem.Name, ElementName=ListView_Clients}"/>-->

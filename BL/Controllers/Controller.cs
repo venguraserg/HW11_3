@@ -101,15 +101,21 @@ namespace BL.Controllers
             Save(CLIENT_FILE_NAME,Clients);
         }
 
-        public void AddClient(string tempSurname, string tempName, string tempPatronymic, string tempPhoneNumber, string tempPassNumber)
+        public bool AddClient(string tempSurname, string tempName, string tempPatronymic, string tempPhoneNumber, string tempPassNumber)
         {
             var newUser = CurentUser.AddClient(tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber);
-            var tempUser = Clients.FirstOrDefault(i => i.Id == newUser.Id);
-            if(newUser != null || tempUser!=null)
+            var findUser = Clients.FirstOrDefault(i => i.Name == newUser.Name && 
+                                                       i.Surname == newUser.Surname && 
+                                                       i.Patronymic == newUser.Patronymic &&
+                                                       i.PhoneNumber == newUser.PhoneNumber &&
+                                                       i.PassNumber == newUser.PassNumber);
+            if(newUser != null && findUser==null)
             {
                 Clients.Add(newUser);
                 Save(CLIENT_FILE_NAME, Clients);
+                return true;
             }
+            return false;
         }
 
 
