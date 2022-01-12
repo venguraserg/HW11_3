@@ -99,7 +99,7 @@ namespace BL.Controllers
                 string tempGuid = Guid.NewGuid().ToString();
                 string[] stringMassive = tempGuid.Split(new char[] { '-' });
 
-                Clients.Add(new Client(Guid.NewGuid(), stringMassive[0], stringMassive[1], stringMassive[2], stringMassive[3], stringMassive[4])); ;
+                Clients.Add(new Client(Guid.NewGuid(), stringMassive[0], stringMassive[1], stringMassive[2], stringMassive[3], stringMassive[4],new Change())); ;
             }
             Save(CLIENT_FILE_NAME,Clients);
         }

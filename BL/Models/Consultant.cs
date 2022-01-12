@@ -13,6 +13,7 @@ namespace BL.Models
         private Guid _id;
         private string _name;
         private string _status;
+
         public Guid Id { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public string Status { get { return _status; } set { _status = value; } }
@@ -48,7 +49,8 @@ namespace BL.Models
 
         public Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client)
         {            
-            client.PhoneNumber = phoneNumber;            
+            client.PhoneNumber = phoneNumber;
+            client.Change = new Change(DateTime.Now, "phone Number", ModifiType.Update, this);
             return client;
         }
         public bool DeleteClient()

@@ -1,6 +1,5 @@
 ﻿using BL.Controllers;
 using BL.Models;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace HW11_3
     public partial class MainWindow : Window
     {
         private readonly Controller userController;
-        private Logger logger;
+       
         public MainWindow(Controller userController)
         {
             InitializeComponent();            
