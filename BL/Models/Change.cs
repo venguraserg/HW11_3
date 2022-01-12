@@ -37,7 +37,7 @@ namespace BL.Models
             ModifiedData = "Create All Fields";
             ModifieType = ModifiType.Created;
             User = new Administrator();
-            Save();
+            //Save();
         }
         public Change(DateTime dateTime, string modifiedData, ModifiType modifiType, IUserInteface user)
         {
@@ -49,7 +49,7 @@ namespace BL.Models
         }
         public override string ToString()
         {
-            return $"Date change - {ChangeDatetime.ToShortDateString()} Time change - {ChangeDatetime.ToShortTimeString()} | {ModifiedData} | {ModifieType.ToString()} | {User.Name}";
+            return $"Date change - {ChangeDatetime.ToShortDateString()} - {ChangeDatetime.ToShortTimeString()} | {ModifiedData} | {ModifieType.ToString()} | {User.Name}";
         }
         private void Save()
         {

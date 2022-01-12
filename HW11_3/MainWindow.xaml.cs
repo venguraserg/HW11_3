@@ -2,6 +2,7 @@
 using BL.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ namespace HW11_3
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
         private readonly Controller userController;
-       
+        
         public MainWindow(Controller userController)
         {
             InitializeComponent();            
@@ -31,8 +32,9 @@ namespace HW11_3
             TB_User.Text = $"Пользователь: {userController.CurentUser.Name}";
             TB_UserStatus.Text = $"Статус: {userController.CurentUser.GetType().Name}";
 
-            ListView_Clients.ItemsSource = this.userController.Clients;
 
+            ListView_Clients.ItemsSource = this.userController.Clients;
+            
             tb_Surname.IsEnabled = userController.CurentUser is not Consultant;
             tb_Name.IsEnabled = userController.CurentUser is not Consultant;
             tb_Patronymic.IsEnabled = userController.CurentUser is not Consultant;
@@ -40,6 +42,9 @@ namespace HW11_3
             BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
+            
+
+
         }
         /// <summary>
         /// Действия при изменеии выбора ListView
@@ -175,7 +180,7 @@ namespace HW11_3
                 (tb_Patronymic.Text == "") ||
                 (tb_PhoneNumber.Text == "") ||
                 (tb_PassNumber.Text == "") || 
-                (tb_PhoneNumber.Text.Length < 7 || tb_PhoneNumber.Text.Length > 12))
+                (tb_PhoneNumber.Text.Length < 7 || tb_PhoneNumber.Text.Length > 15))
             {
                 tb_Surname.Background = tb_Surname.Text == "" ? Brushes.Orchid : Brushes.Transparent;
                 tb_Name.Background = tb_Name.Text == "" ? Brushes.Orchid : Brushes.Transparent;
@@ -196,6 +201,7 @@ namespace HW11_3
                 return true;
             }
         }
+
         
     }
 }
