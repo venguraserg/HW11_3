@@ -37,15 +37,15 @@ namespace BL.Models
         public Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client)
         {
             string changeText = string.Empty;
-            if (client.Surname == surname) changeText += "surname, ";
+            if (client.Surname != surname) changeText += "surname, ";
             client.Surname = surname;
-            if (client.Name == name) changeText += "name, ";
+            if (client.Name != name) changeText += "name, ";
             client.Name = name;
-            if (client.Patronymic == patronymic) changeText += "patronymic, ";
+            if (client.Patronymic != patronymic) changeText += "patronymic, ";
             client.Patronymic = patronymic;
-            if (client.PhoneNumber == phoneNumber) changeText += "phoneNumber, ";
+            if (client.PhoneNumber != phoneNumber) changeText += "phoneNumber, ";
             client.PhoneNumber = phoneNumber;
-            if (client.PassNumber == passNumber) changeText += "passNumber, ";
+            if (client.PassNumber != passNumber) changeText += "passNumber, ";
             client.PassNumber = passNumber;
             client.Change = new Change(DateTime.Now, changeText, ModifiType.Update, this);
             return client;
