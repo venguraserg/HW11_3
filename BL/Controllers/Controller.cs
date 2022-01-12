@@ -19,12 +19,21 @@ namespace BL.Controllers
         // приватные поля для определения пути файлов хранения данных
         private static readonly string USER_FILE_NAME = "users.json";
         private static readonly string CLIENT_FILE_NAME = "clients.json";
-
+        /// <summary>
+        /// Коллекция пользователей
+        /// </summary>
         public ObservableCollection<IUserInteface> Users { get; set; }
-
+        /// <summary>
+        /// Текущий пользователь
+        /// </summary>
         public IUserInteface CurentUser { get; set; }
+        /// <summary>
+        /// Новый ли пользователь
+        /// </summary>
         public bool IsNewUser { get; } = false;
-
+        /// <summary>
+        /// коллекция клиентов
+        /// </summary>
         public ObservableCollection<Client> Clients { get; set; }
 
 
@@ -50,9 +59,6 @@ namespace BL.Controllers
             Clients = Load<Client>(CLIENT_FILE_NAME);
             Save(USER_FILE_NAME, Users);
         }
-
-
-
 
 
         /// <summary>
@@ -166,6 +172,7 @@ namespace BL.Controllers
             }
             return false;
         }
+
         /// <summary>
         /// Метод изменения данных клиента
         /// </summary>
