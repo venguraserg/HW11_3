@@ -23,9 +23,9 @@ namespace BL.Models
             throw new NotImplementedException();
         }
 
-        public Client DeleteClient(Client client)
+        public bool DeleteClient()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public ObservableCollection<Client> GetAllClient(List<Client> clients)
@@ -35,7 +35,7 @@ namespace BL.Models
 
         public Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

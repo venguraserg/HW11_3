@@ -16,6 +16,6 @@ namespace BL.Interfaces
         Client AddClient(string surname, string name, string patronymic, string phoneNumber, string passNumber);
         ObservableCollection<Client> GetAllClient(List<Client> clients);
         Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client);
-        Client DeleteClient(Client client);
+        bool DeleteClient();
     }
 }

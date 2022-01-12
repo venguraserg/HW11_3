@@ -35,11 +35,16 @@ namespace BL.Models
         }
         public Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client)
         {
-            throw new NotImplementedException();
+            client.Surname = surname;
+            client.Name = name;
+            client.Patronymic = patronymic;
+            client.PhoneNumber = phoneNumber;
+            client.PassNumber = passNumber;
+            return client;
         }
-        public Client DeleteClient(Client client)
+        public bool DeleteClient()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using BL.Controllers;
 using BL.Interfaces;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,12 @@ namespace HW11_3
     public partial class WindowAdmin : Window
     {
         private Controller userController;
+        private Logger logger;
 
         public WindowAdmin(Controller userController)
         {
             InitializeComponent();
+            logger = LogManager.GetCurrentClassLogger();
             this.userController = userController;
             this.Title = $"{userController.CurentUser.Name} - {userController.CurentUser.Status}";
             ListView_Users.ItemsSource = userController.Users;
@@ -37,6 +40,7 @@ namespace HW11_3
             if (item != null)
             {
                 userController.ChangeUserStatus(item.Name);
+                logger.Info($"У пользователя {item.Name} ИЗМЕНЕН СТАТУС");
             }
             
 

@@ -1,5 +1,6 @@
 ﻿using BL.Controllers;
 using BL.Models;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,55 +23,52 @@ namespace HW11_3
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Controller userController;
-        private Client selectedClient;
+        private readonly Controller userController;
+        private Logger logger;
         public MainWindow(Controller userController)
         {
-            InitializeComponent();
-            selectedClient = new Client();
+            InitializeComponent();            
             this.userController = userController;
             TB_User.Text = $"Пользователь: {userController.CurentUser.Name}";
             TB_UserStatus.Text = $"Статус: {userController.CurentUser.GetType().Name}";
 
             ListView_Clients.ItemsSource = this.userController.Clients;
 
-
-            Surname.IsEnabled = userController.CurentUser is not Consultant;
-            Name.IsEnabled = userController.CurentUser is not Consultant;
-            Patronymic.IsEnabled = userController.CurentUser is not Consultant;
-            PassNumber.IsEnabled = userController.CurentUser is not Consultant;
+            tb_Surname.IsEnabled = userController.CurentUser is not Consultant;
+            tb_Name.IsEnabled = userController.CurentUser is not Consultant;
+            tb_Patronymic.IsEnabled = userController.CurentUser is not Consultant;
+            tb_PassNumber.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
-
-            
-
-
-
         }
-
+        /// <summary>
+        /// Действия при изменеии выбора ListView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListView_Clients_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             if (ListView_Clients.SelectedItem is Client item)
             {
-                Surname.Text = item.Surname;
-                Name.Text = item.Name;
-                Patronymic.Text = item.Patronymic;
-                PhoneNumber.Text = item.PhoneNumber;
-                PassNumber.Text = item.PassNumber;
+                tb_Surname.Text = item.Surname;
+                tb_Name.Text = item.Name;
+                tb_Patronymic.Text = item.Patronymic;
+                tb_PhoneNumber.Text = item.PhoneNumber;
+                tb_PassNumber.Text = item.PassNumber;
             }
             else
             {
-                Surname.Text = "";
-                Name.Text = "";
-                Patronymic.Text = "";
-                PhoneNumber.Text = "";
-                PassNumber.Text = "";
+                tb_Surname.Text = "";
+                tb_Name.Text = "";
+                tb_Patronymic.Text = "";
+                tb_PhoneNumber.Text = "";
+                tb_PassNumber.Text = "";
             }
             if (ListView_Clients.SelectedItems.Count > 0)
                 {
                     BTN_Change.IsEnabled = true;
-                    BTN_Delete.IsEnabled = userController.CurentUser is Consultant ? false : true;
+                    BTN_Delete.IsEnabled = userController.CurentUser is not Consultant;
                 }
                 else
                 {
@@ -80,59 +78,125 @@ namespace HW11_3
 
             
         }
-
+        /// <summary>
+        /// Добавление клиента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BTN_Add_Click(object sender, RoutedEventArgs e)
         {
-            if ((Surname.Text == "") || (Name.Text == "") || (Patronymic.Text == "") || (PhoneNumber.Text == "") || (PassNumber.Text == "")) 
-            {                
-                Surname.Background = Surname.Text=="" ? Brushes.Orchid : Brushes.Transparent;
-                Name.Background = Name.Text == "" ? Brushes.Orchid : Brushes.Transparent;
-                Patronymic.Background = Patronymic.Text == "" ? Brushes.Orchid : Brushes.Transparent;
-                PhoneNumber.Background = PhoneNumber.Text == "" ? Brushes.Orchid : Brushes.Transparent;
-                PassNumber.Background = PassNumber.Text == "" ? Brushes.Orchid : Brushes.Transparent;
-                MessageBox.Show("Не все поля заполнены");
-
-            }
-            else
+            if (InputValidationClientData())
             {
-                Surname.Background = Brushes.Transparent;
-                Name.Background = Brushes.Transparent;
-                Patronymic.Background = Brushes.Transparent;
-                PhoneNumber.Background = Brushes.Transparent;
-                PassNumber.Background = Brushes.Transparent;
-
-                var tempSurname = Surname.Text.Trim();
-                var tempName = Name.Text.Trim();
-                var tempPatronymic = Patronymic.Text.Trim();
-                var tempPhoneNumber = PhoneNumber.Text.Trim();
-                var tempPassNumber = PassNumber.Text.Trim();
+                var tempSurname = tb_Surname.Text.Trim();
+                var tempName = tb_Name.Text.Trim();
+                var tempPatronymic = tb_Patronymic.Text.Trim();
+                var tempPhoneNumber = tb_PhoneNumber.Text.Trim();
+                var tempPassNumber = tb_PassNumber.Text.Trim();
                 if (userController.AddClient(tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber))
                 {
                     MessageBox.Show("Данные успешно добавлены");
+                    tb_Surname.Text = "";
+                    tb_Name.Text = "";
+                    tb_Patronymic.Text = "";
+                    tb_PhoneNumber.Text = "";
+                    tb_PassNumber.Text = "";
                 }
                 else
                 {
                     MessageBox.Show("Не возможно добавить данные\nвероятно такой клиент уже существует!");
                 }
-            }            
+            }
+            
         }
 
         private void BTN_Change_Click(object sender, RoutedEventArgs e)
         {
+            Client changeClient = ListView_Clients.SelectedItem as Client;
+            if(changeClient == null)
+            {
+                MessageBox.Show("Выберите клиента из списка");
+            }
+            else
+            {
+                if (InputValidationClientData())
+                {
+                    var tempSurname = tb_Surname.Text.Trim();
+                    var tempName = tb_Name.Text.Trim();
+                    var tempPatronymic = tb_Patronymic.Text.Trim();
+                    var tempPhoneNumber = tb_PhoneNumber.Text.Trim();
+                    var tempPassNumber = tb_PassNumber.Text.Trim();
+                    if (userController.UpdateClient(changeClient, tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber))
+                    {
+                        ListView_Clients.Items.Refresh();
+                        MessageBox.Show("Данные успешно изменены");
+                        tb_Surname.Text = "";
+                        tb_Name.Text = "";
+                        tb_Patronymic.Text = "";
+                        tb_PhoneNumber.Text = "";
+                        tb_PassNumber.Text = "";
+                        
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не возможно изменить данные!");
+                    }
+                }
+
+            }
+            
 
         }
-
+        /// <summary>
+        /// Удаление Клиента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BTN_Delete_Click(object sender, RoutedEventArgs e)
         {
-            var q = ListView_Clients.SelectedItem as Client;
-            //userController.DeleteClient(ListView_Clients.SelectedItem as Client);
+            var deletedClient = ListView_Clients.SelectedItem as Client;            
+            _ = userController.DeleteClient(deletedClient) ? MessageBox.Show("Клиент успешно удален") : MessageBox.Show("Не возможно удалить клиента");
         }
-
+        /// <summary>
+        /// Нажатие кнопки смены пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BTN_Auth_Click(object sender, RoutedEventArgs e)
         {
             WindowAuth authWin = new();
             authWin.Show();
             this.Close();
         }
+
+        private bool InputValidationClientData() 
+        {
+
+            if ((tb_Surname.Text == "") ||
+                (tb_Name.Text == "") ||
+                (tb_Patronymic.Text == "") ||
+                (tb_PhoneNumber.Text == "") ||
+                (tb_PassNumber.Text == "") || 
+                (tb_PhoneNumber.Text.Length < 7 || tb_PhoneNumber.Text.Length > 12))
+            {
+                tb_Surname.Background = tb_Surname.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                tb_Name.Background = tb_Name.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                tb_Patronymic.Background = tb_Patronymic.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                tb_PhoneNumber.Background = (tb_PhoneNumber.Text == "" || (tb_PhoneNumber.Text.Length < 7 || tb_PhoneNumber.Text.Length > 12)) ? Brushes.Orchid : Brushes.Transparent;
+                tb_PassNumber.Background = tb_PassNumber.Text == "" ? Brushes.Orchid : Brushes.Transparent;
+                MessageBox.Show("Не все поля заполнены коррктно");
+                return false;
+            }
+            else
+            {
+                tb_Surname.Background = Brushes.Transparent;
+                tb_Name.Background = Brushes.Transparent;
+                tb_Patronymic.Background = Brushes.Transparent;
+                tb_PhoneNumber.Background = Brushes.Transparent;
+                tb_PassNumber.Background = Brushes.Transparent;
+
+                return true;
+            }
+        }
+        
     }
 }

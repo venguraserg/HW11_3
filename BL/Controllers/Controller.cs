@@ -52,6 +52,9 @@ namespace BL.Controllers
         }
 
 
+
+
+
         /// <summary>
         /// Получение списка всех пользователей из файла
         /// </summary>
@@ -101,15 +104,27 @@ namespace BL.Controllers
             Save(CLIENT_FILE_NAME,Clients);
         }
 
+        /// <summary>
+        /// Метод добавления клиента
+        /// </summary>
+        /// <param name="tempSurname"></param>
+        /// <param name="tempName"></param>
+        /// <param name="tempPatronymic"></param>
+        /// <param name="tempPhoneNumber"></param>
+        /// <param name="tempPassNumber"></param>
+        /// <returns></returns>
         public bool AddClient(string tempSurname, string tempName, string tempPatronymic, string tempPhoneNumber, string tempPassNumber)
         {
             var newUser = CurentUser.AddClient(tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber);
-            var findUser = Clients.FirstOrDefault(i => i.Name == newUser.Name && 
-                                                       i.Surname == newUser.Surname && 
+            var findUser = Clients.FirstOrDefault(i => i.Name == newUser.Name &&
+                                                       i.Surname == newUser.Surname &&
                                                        i.Patronymic == newUser.Patronymic &&
                                                        i.PhoneNumber == newUser.PhoneNumber &&
                                                        i.PassNumber == newUser.PassNumber);
-            if(newUser != null && findUser==null)
+
+
+
+            if (newUser != null && findUser==null)
             {
                 Clients.Add(newUser);
                 Save(CLIENT_FILE_NAME, Clients);
@@ -117,7 +132,6 @@ namespace BL.Controllers
             }
             return false;
         }
-
 
         /// <summary>
         /// Метод смены типа консультанта на клиента
@@ -149,6 +163,44 @@ namespace BL.Controllers
                     Save(USER_FILE_NAME,Users);
                     return true;
                 }
+            }
+            return false;
+        }
+        /// <summary>
+        /// Метод изменения данных клиента
+        /// </summary>
+        /// <param name="changeClient"></param>
+        /// <returns></returns>
+        public bool UpdateClient(Client changeClient, string newSurname, string newName, string newPatronymic, string newPhoneNumber, string newPassNumber)
+        {
+            var indexCurrentClient = Clients.IndexOf(changeClient);
+            var updatedClient = CurentUser.UpdateClient(newSurname, newName, newPatronymic, newPhoneNumber, newPassNumber, changeClient);
+            if (indexCurrentClient < 0 || updatedClient == null) 
+            { 
+                return false; 
+            }
+            else
+            {
+                Clients[indexCurrentClient] = updatedClient;
+                Save(CLIENT_FILE_NAME, Clients);
+                return true;
+            }
+            
+        }
+
+        /// <summary>
+        /// Метод удаления клиента
+        /// </summary>
+        /// <param name="deletedClient"></param>
+        /// <returns></returns>
+        public bool DeleteClient(Client deletedClient)
+        {
+            var index = Clients.IndexOf(deletedClient);
+            if (CurentUser.DeleteClient())
+            {
+                Clients.RemoveAt(index);
+                Save(CLIENT_FILE_NAME, Clients);
+                return true;
             }
             return false;
         }

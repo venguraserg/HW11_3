@@ -1,7 +1,9 @@
 ﻿using BL.Controllers;
 using BL.Models;
+using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +23,11 @@ namespace HW11_3
     /// </summary>
     public partial class WindowAuth : Window
     {
+        private Logger logger;
         public WindowAuth()
         {
             InitializeComponent();
+            logger = LogManager.GetCurrentClassLogger();
         }
         private void BTN_Auth_Click(object sender, RoutedEventArgs e)
         {
@@ -43,16 +47,18 @@ namespace HW11_3
             {
                 var windowAdmin = new WindowAdmin(userController);
                 windowAdmin.Show();
+                
             }
             else
             {
 
                 var mainWindow = new MainWindow(userController);
                 mainWindow.Show();
-
-
                 
+
+
             }
+            logger.Info($"В систему вошел {userController.CurentUser.GetType().Name}");
             this.Close();
         }
     }
