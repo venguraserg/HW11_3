@@ -24,7 +24,8 @@ namespace HW11_3
     public partial class MainWindow : Window 
     {
         private readonly Controller userController;
-        
+        public string Test { get; set; } = "123";
+
         public MainWindow(Controller userController)
         {
             InitializeComponent();            
@@ -42,7 +43,11 @@ namespace HW11_3
             BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
-            
+
+            this.DataContext = Test;
+
+
+
 
 
         }

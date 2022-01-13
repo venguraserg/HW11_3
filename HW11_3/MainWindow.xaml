@@ -41,19 +41,17 @@
             <ListView.View>
                 <GridView x:Name="myGridView">
                     
-                    <GridViewColumn Header="Фамилия" 
+                    <GridViewColumn Header="Фамилия" Width="120"
                                     DisplayMemberBinding="{Binding Path=Surname}"/>
-                    <GridViewColumn Header="Имя" 
+                    <GridViewColumn Header="Имя" Width="80"
                                     DisplayMemberBinding="{Binding Path=Name}"/>
-                    <GridViewColumn Header="Отчество" 
+                    <GridViewColumn Header="Отчество" Width="120"
                                     DisplayMemberBinding="{Binding Path=Patronymic}"/>
-                    <GridViewColumn Header="Номер телефона"                                     
+                    <GridViewColumn Header="Номер телефона" Width="120"                                    
                                     x:Name="myGridViewColumn">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=PhoneNumber}">
-                                    
-                                </TextBlock>
+                                <TextBlock Text="**********" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
