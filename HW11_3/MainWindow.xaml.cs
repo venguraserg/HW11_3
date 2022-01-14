@@ -24,7 +24,7 @@ namespace HW11_3
     public partial class MainWindow : Window 
     {
         private readonly Controller userController;
-        public string Test { get; set; } = "123";
+        public bool IsManager { get; set; }
 
         public MainWindow(Controller userController)
         {
@@ -44,10 +44,10 @@ namespace HW11_3
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
 
-            this.DataContext = Test;
 
+            IsManager = userController.CurentUser is not Consultant;
 
-
+            //GridTb_PhoneNumber.
 
 
         }
@@ -175,6 +175,7 @@ namespace HW11_3
             WindowAuth authWin = new();
             authWin.Show();
             this.Close();
+            
         }
 
         private bool InputValidationClientData() 
