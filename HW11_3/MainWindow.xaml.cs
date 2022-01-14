@@ -24,6 +24,7 @@ namespace HW11_3
     public partial class MainWindow : Window 
     {
         private readonly Controller userController;
+        public bool IsManager { get; set; }
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
         public MainWindow(Controller userController)
