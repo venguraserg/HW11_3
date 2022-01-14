@@ -43,7 +43,11 @@ namespace HW11_3
             BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
             BTN_Change.IsEnabled = false;
-            
+
+
+            IsManager = userController.CurentUser is not Consultant;
+
+            //GridTb_PhoneNumber.
 
 
         }
@@ -171,6 +175,7 @@ namespace HW11_3
             WindowAuth authWin = new();
             authWin.Show();
             this.Close();
+            
         }
 
         private bool InputValidationClientData() 
