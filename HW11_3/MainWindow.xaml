@@ -38,17 +38,33 @@
         <ListView x:Name="ListView_Clients" 
                   Grid.Row="2" Margin="10" 
                   Grid.ColumnSpan="5"  SelectionChanged="ListView_Clients_SelectionChanged_1"  >
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView x:Name="myGridView">
-                    
-                    <GridViewColumn Header="Фамилия" 
-                                    DisplayMemberBinding="{Binding Path=Surname}"/>
-                    <GridViewColumn Header="Имя" 
-                                    DisplayMemberBinding="{Binding Path=Name}"/>
-                    <GridViewColumn Header="Отчество" 
-                                    DisplayMemberBinding="{Binding Path=Patronymic}"/>
-                    <GridViewColumn Header="Номер телефона"                                     
-                                    x:Name="myGridViewColumn">
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Surname}" Width="80">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Surname" Click="GridViewColumnHeader_Click" >Фамилия</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="80">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click" >Имя</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Patronymic}" Width="80">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Patronymic" Click="GridViewColumnHeader_Click" >Отчество</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="myGridViewColumn" Width="120">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PhoneNumber" Click="GridViewColumnHeader_Click" >Номер телефона</GridViewColumnHeader>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=PhoneNumber}">
@@ -57,8 +73,11 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Номер паспорта" 
-                                    DisplayMemberBinding="{Binding Path=PassNumber}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=PassNumber}" Width="140">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PassNumber" Click="GridViewColumnHeader_Click" >Номер паспорта</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
 
