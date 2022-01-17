@@ -22,7 +22,7 @@ namespace BL.Controllers
         //основное поле списка клиентов
         private ObservableCollection<Client> clients;
         //дополнительное поле списка клиентов с сокрытием номера паспорта
-        private ObservableCollection<Client> clients_new = new ObservableCollection<Client>();
+        private ObservableCollection<Client> clients_new;
 
         /// <summary>
         /// Коллекция пользователей
@@ -42,12 +42,12 @@ namespace BL.Controllers
         /// </summary>
         public ObservableCollection<Client> Clients
         {
-            get { return CurentUser is Consultant ? clients_new : clients; }
-            set{ clients = value; }
+            get => CurentUser is Consultant ? clients_new : clients;
+            set { clients = value; }
         }
-         
-         
-         
+
+
+
 
 
 
@@ -68,9 +68,19 @@ namespace BL.Controllers
 
             }
             clients = Load<Client>(CLIENT_FILE_NAME);
-            for (var i = 0; i < clients.Count; i++)
+            clients_new = UpdateViewClients(clients);
+            Save(USER_FILE_NAME, Users);
+        }
+        /// <summary>
+        /// Обновление списка клиентов для консультанта
+        /// </summary>
+        /// <param name="clients"></param>
+        private ObservableCollection<Client> UpdateViewClients(ObservableCollection<Client> clients)
+        {
+            var tempCollections = new ObservableCollection<Client>();
+            for (int i = 0; i < clients.Count; i++)
             {
-                clients_new.Add(new Client()
+                tempCollections.Add(new Client()
                 {
                     Id = clients[i].Id,
                     Surname = clients[i].Surname,
@@ -80,7 +90,7 @@ namespace BL.Controllers
                     PassNumber = "**************"
                 });
             }
-            Save(USER_FILE_NAME, Users);
+            return tempCollections;
         }
 
 
@@ -155,7 +165,7 @@ namespace BL.Controllers
 
             if (newUser != null && findUser == null)
             {
-                Clients.Add(newUser);
+                clients.Add(newUser);
                 Save(CLIENT_FILE_NAME, Clients);
                 return true;
             }
@@ -214,9 +224,10 @@ namespace BL.Controllers
             {
                 clients[indexCurrentClient] = updatedClient;
                 Save(CLIENT_FILE_NAME, clients);
+                clients_new = UpdateViewClients(clients);
                 return true;
             }
-
+            
         }
 
         /// <summary>

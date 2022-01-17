@@ -75,15 +75,15 @@ namespace HW11_3
                 tb_PassNumber.Text = "";
             }
             if (ListView_Clients.SelectedItems.Count > 0)
-                {
-                    BTN_Change.IsEnabled = true;
-                    BTN_Delete.IsEnabled = userController.CurentUser is not Consultant;
-                }
-                else
-                {
-                    BTN_Change.IsEnabled = false;
-                    BTN_Delete.IsEnabled = false;
-                }
+            {
+                BTN_Change.IsEnabled = true;
+                BTN_Delete.IsEnabled = userController.CurentUser is not Consultant;
+            }
+            else
+            {
+                BTN_Change.IsEnabled = false;
+                BTN_Delete.IsEnabled = false;
+            }
 
             
         }
@@ -140,6 +140,7 @@ namespace HW11_3
                     var tempPassNumber = tb_PassNumber.Text.Trim();
                     if (userController.UpdateClient(changeClient, tempSurname, tempName, tempPatronymic, tempPhoneNumber, tempPassNumber))
                     {
+                        ListView_Clients.ItemsSource = this.userController.Clients;
                         ListView_Clients.Items.Refresh();
                         MessageBox.Show("Данные успешно изменены");
                         tb_Surname.Text = "";
@@ -155,10 +156,8 @@ namespace HW11_3
                     }
                 }
 
-                
-
             }
-           
+            
 
         }
         /// <summary>
