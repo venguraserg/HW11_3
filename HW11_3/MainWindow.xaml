@@ -61,15 +61,10 @@
                             <GridViewColumnHeader Tag="Patronymic" Click="GridViewColumnHeader_Click" >Отчество</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="myGridViewColumn" Width="120">
+                    <GridViewColumn  DisplayMemberBinding="{Binding Path=PhoneNumber}" Width="120">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Tag="PhoneNumber" Click="GridViewColumnHeader_Click" >Номер телефона</GridViewColumnHeader>
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock x:Name="GridTb_PhoneNumber"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
+                        </GridViewColumn.Header>                        
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=PassNumber}" Width="140">
                         <GridViewColumn.Header>

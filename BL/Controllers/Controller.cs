@@ -19,10 +19,14 @@ namespace BL.Controllers
         // приватные поля для определения пути файлов хранения данных
         private static readonly string USER_FILE_NAME = "users.json";
         private static readonly string CLIENT_FILE_NAME = "clients.json";
+        private ObservableCollection<Client> clients;
+        private ObservableCollection<Client> clients_new = new ObservableCollection<Client>();
+
         /// <summary>
         /// Коллекция пользователей
         /// </summary>
-        public ObservableCollection<IUserInteface> Users { get; set; }
+        public ObservableCollection<IUserInteface> Users { get; set; } 
+            
         /// <summary>
         /// Текущий пользователь
         /// </summary>
@@ -34,9 +38,29 @@ namespace BL.Controllers
         /// <summary>
         /// коллекция клиентов
         /// </summary>
-        public ObservableCollection<Client> Clients { get; set; }
-
-
+        public ObservableCollection<Client> Clients
+        {
+            get
+            {
+                if (CurentUser is Consultant)
+                {
+                    
+                    return clients_new;
+                }
+                else
+                {
+                    return clients;
+                }
+                
+            }
+            set
+            {
+                clients = value;
+            }
+        }
+         
+         
+         
 
 
 
@@ -56,7 +80,19 @@ namespace BL.Controllers
                 IsNewUser = true;
 
             }
-            Clients = Load<Client>(CLIENT_FILE_NAME);
+            clients = Load<Client>(CLIENT_FILE_NAME);
+            for (var i = 0; i < clients.Count; i++)
+            {
+                clients_new.Add(new Client()
+                {
+                    Id = clients[i].Id,
+                    Surname = clients[i].Surname,
+                    Name = clients[i].Name,
+                    Patronymic = clients[i].Patronymic,
+                    PhoneNumber = clients[i].PhoneNumber,
+                    PassNumber = "**************"
+                });
+            }
             Save(USER_FILE_NAME, Users);
         }
 
@@ -105,9 +141,9 @@ namespace BL.Controllers
                 string tempGuid = Guid.NewGuid().ToString();
                 string[] stringMassive = tempGuid.Split(new char[] { '-' });
 
-                Clients.Add(new Client(Guid.NewGuid(), stringMassive[0], stringMassive[1], stringMassive[2], stringMassive[3], stringMassive[4],new Change())); ;
+                Clients.Add(new Client(Guid.NewGuid(), stringMassive[0], stringMassive[1], stringMassive[2], stringMassive[3], stringMassive[4], new Change())); ;
             }
-            Save(CLIENT_FILE_NAME,Clients);
+            Save(CLIENT_FILE_NAME, Clients);
         }
 
         /// <summary>
@@ -130,7 +166,7 @@ namespace BL.Controllers
 
 
 
-            if (newUser != null && findUser==null)
+            if (newUser != null && findUser == null)
             {
                 Clients.Add(newUser);
                 Save(CLIENT_FILE_NAME, Clients);
@@ -166,7 +202,7 @@ namespace BL.Controllers
                             break;
                     }
 
-                    Save(USER_FILE_NAME,Users);
+                    Save(USER_FILE_NAME, Users);
                     return true;
                 }
             }
@@ -180,19 +216,20 @@ namespace BL.Controllers
         /// <returns></returns>
         public bool UpdateClient(Client changeClient, string newSurname, string newName, string newPatronymic, string newPhoneNumber, string newPassNumber)
         {
-            var indexCurrentClient = Clients.IndexOf(changeClient);
-            var updatedClient = CurentUser.UpdateClient(newSurname, newName, newPatronymic, newPhoneNumber, newPassNumber, changeClient);
-            if (indexCurrentClient < 0 || updatedClient == null) 
-            { 
-                return false; 
+            var tempClient = clients.SingleOrDefault(i => i.Id == changeClient.Id);
+            var indexCurrentClient = clients.IndexOf(tempClient);
+            var updatedClient = CurentUser.UpdateClient(newSurname, newName, newPatronymic, newPhoneNumber, newPassNumber, tempClient);
+            if (indexCurrentClient < 0 || updatedClient == null)
+            {
+                return false;
             }
             else
             {
-                Clients[indexCurrentClient] = updatedClient;
-                Save(CLIENT_FILE_NAME, Clients);
+                clients[indexCurrentClient] = updatedClient;
+                Save(CLIENT_FILE_NAME, clients);
                 return true;
             }
-            
+
         }
 
         /// <summary>
