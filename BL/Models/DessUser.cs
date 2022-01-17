@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace BL.Models
 {
+    /// <summary>
+    /// Вспомогательный класс для десерилизации во время чтения из файла
+    /// 
+    /// </summary>
     public class DessUser : IUserInteface
 
     {

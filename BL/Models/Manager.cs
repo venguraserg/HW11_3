@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace BL.Models
 {
+    /// <summary>
+    /// Класс Менеджера
+    /// </summary>
     public class Manager : IUserInteface
     {
         private Guid _id;
@@ -25,15 +28,38 @@ namespace BL.Models
             _status = status;
         }
                
-
+        /// <summary>
+        /// Метод добавления клиента
+        /// </summary>
+        /// <param name="surname"></param>
+        /// <param name="name"></param>
+        /// <param name="patronymic"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="passNumber"></param>
+        /// <returns></returns>
         public Client AddClient(string surname, string name, string patronymic, string phoneNumber, string passNumber)
         {
             return new Client(surname, name, patronymic, phoneNumber, passNumber, this);
         }
+        /// <summary>
+        /// Метод получения всех клиентов 
+        /// </summary>
+        /// <param name="clients"></param>
+        /// <returns></returns>
         public ObservableCollection<Client> GetAllClient(List<Client> clients)
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// Метод обновления клиента
+        /// </summary>
+        /// <param name="surname"></param>
+        /// <param name="name"></param>
+        /// <param name="patronymic"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="passNumber"></param>
+        /// <param name="client"></param>
+        /// <returns></returns>
         public Client UpdateClient(string surname, string name, string patronymic, string phoneNumber, string passNumber, Client client)
         {
             string changeText = string.Empty;
@@ -50,6 +76,10 @@ namespace BL.Models
             client.Change = new Change(DateTime.Now, changeText, ModifiType.Update, this);
             return client;
         }
+        /// <summary>
+        /// Метод удаления клиента
+        /// </summary>
+        /// <returns></returns>
         public bool DeleteClient()
         {
             return true;

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BL.Models
 {
+    /// <summary>
+    /// Класс Клиента
+    /// </summary>
     public class Client
     {
         public Guid Id { get; set; }
@@ -17,9 +20,20 @@ namespace BL.Models
         public string PassNumber { get; set; }
         public Change Change { get; set; }
 
-
+        /// <summary>
+        /// Конструктор без параметров
+        /// </summary>
         public Client() { }
-
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="surname"></param>
+        /// <param name="name"></param>
+        /// <param name="patronymic"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="passNumber"></param>
+        /// <param name="change"></param>
         public Client(Guid id, string surname, string name, string patronymic, string phoneNumber, string passNumber, Change change)
         {
             Id = id;
@@ -30,6 +44,15 @@ namespace BL.Models
             PassNumber = passNumber;
             Change = change;
         }
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="surname"></param>
+        /// <param name="name"></param>
+        /// <param name="patronymic"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="passNumber"></param>
+        /// <param name="user"></param>
         public Client(string surname, string name, string patronymic, string phoneNumber, string passNumber, IUserInteface user)
         {
             Id = Guid.NewGuid();

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace BL.Interfaces
 {
+    /// <summary>
+    /// интерфейс описывающий поведение клиента
+    /// </summary>
     public interface IUserInteface
     {
         Guid Id { get; set; }

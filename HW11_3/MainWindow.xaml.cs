@@ -27,6 +27,10 @@ namespace HW11_3
         
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="userController"></param>
         public MainWindow(Controller userController)
         {
             InitializeComponent();            
@@ -43,10 +47,7 @@ namespace HW11_3
             tb_PassNumber.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Add.IsEnabled = userController.CurentUser is not Consultant;
             BTN_Delete.IsEnabled = false;
-            BTN_Change.IsEnabled = false;
-
-
-           
+            BTN_Change.IsEnabled = false;                    
 
 
         }
@@ -116,7 +117,11 @@ namespace HW11_3
             }
             
         }
-
+        /// <summary>
+        /// Изменение клиента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BTN_Change_Click(object sender, RoutedEventArgs e)
         {
             Client changeClient = ListView_Clients.SelectedItem as Client;

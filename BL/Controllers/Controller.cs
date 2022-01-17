@@ -19,7 +19,9 @@ namespace BL.Controllers
         // приватные поля для определения пути файлов хранения данных
         private static readonly string USER_FILE_NAME = "users.json";
         private static readonly string CLIENT_FILE_NAME = "clients.json";
+        //основное поле списка клиентов
         private ObservableCollection<Client> clients;
+        //дополнительное поле списка клиентов с сокрытием номера паспорта
         private ObservableCollection<Client> clients_new = new ObservableCollection<Client>();
 
         /// <summary>
@@ -40,23 +42,8 @@ namespace BL.Controllers
         /// </summary>
         public ObservableCollection<Client> Clients
         {
-            get
-            {
-                if (CurentUser is Consultant)
-                {
-                    
-                    return clients_new;
-                }
-                else
-                {
-                    return clients;
-                }
-                
-            }
-            set
-            {
-                clients = value;
-            }
+            get { return CurentUser is Consultant ? clients_new : clients; }
+            set{ clients = value; }
         }
          
          
